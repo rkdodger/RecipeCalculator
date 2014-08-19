@@ -1,0 +1,28 @@
+import java.io.*;
+
+public class RecipeCalculatorTest
+{
+   public static void main(String[] args) {
+      RecipeCalculator calc = new RecipeCalculator();
+      calc.getIngredients(args[0]);
+      double[] d;
+      for(int i =1; i < args.length; i++){
+         d = calc.calculate(args[i]);
+         System.out.println(args[i]);
+         System.out.println("Total Recipe Cost: $"+d[0]);
+         System.out.println("Total Sales Tax: $" + d[1]);
+         System.out.println("Total Organic Discount: $"+d[2]);
+         System.out.println();
+      }
+      calc.calculate("bogusrecipe.txt");
+      if(calc.nearestSeventhCent(0.79) == 0.84)
+         System.out.println("True");
+      if(calc.nearestSeventhCent(0.09) == 0.14)
+         System.out.println("True");
+      if(calc.nearestSeventhCent(-0.79) == 0)
+         System.out.println("True");
+      if(calc.nearestCent(11.01) == 11.02) 
+         System.out.println("True");
+      System.out.println(calc.nearestCent(0.0007));
+   }
+}
