@@ -1,0 +1,10 @@
+Garlic
+1
+Chicken
+4
+Bogus Item
+1
+Olive Oil
+0.5
+Vinegar
+0.5
