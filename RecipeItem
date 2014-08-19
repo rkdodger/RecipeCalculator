@@ -1,0 +1,32 @@
+public class RecipeItem
+{
+
+	private String itemName;
+	private boolean isProduce;
+	private boolean isOrganic;
+	private double cost;
+
+	public RecipeItem(String s, boolean p, boolean o, double c)
+	{
+		itemName = s;
+		isProduce = p;
+		isOrganic = o;
+		cost = c;
+	}
+
+	public boolean isProduce(){
+		return isProduce;
+	}
+
+	public boolean isOrganic(){
+		return isOrganic;
+	}
+
+	public double getCost(){
+		return cost;
+	}
+
+	public String getItemName(){
+		return itemName;
+	}
+}
