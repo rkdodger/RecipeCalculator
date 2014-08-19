@@ -1,0 +1,112 @@
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+
+
+public class RecipeCalculator
+{
+   public ArrayList<RecipeItem> ingredients;
+   public void getIngredients(String ingredientsList) 
+   {
+      try { 
+         BufferedReader in = new BufferedReader(new FileReader(ingredientsList));
+         try{
+            if(in.ready()) {
+               String s = "";
+               while((s = in.readLine()) != null) {
+                  ingredients.add(new RecipeItem(s, Boolean.parseBoolean(in.readLine()),Boolean.parseBoolean(in.readLine()),Double.parseDouble(in.readLine())));
+               }
+               in.close();
+            }
+         }
+         catch(IOException i){ 
+            System.err.println("Error: An I/O Exception has occurred");
+         }
+      }
+      catch(FileNotFoundException f) {
+         System.err.println("Error: File passed to getIngredients not found!");
+      }		
+   }
+
+   public double nearestCent(double num){
+      //Rounds up to the nearest cent
+      return (Math.ceil(num*100))/100;
+   }
+   public double nearestSeventhCent(double num){
+      //Rounds up to the nearest seventh cent
+      double i;
+      for(i = 0.0; i < num; i+=0.07)
+         { }
+      return (Math.floor(i*100))/100;
+   }
+
+   public RecipeCalculator() {
+      ingredients = new ArrayList<RecipeItem>();
+   }
+   public RecipeItem findItem(String name){
+      for(int i = 0; i < ingredients.size(); i++){
+         if(ingredients.get(i).getItemName().equals(name)) {
+            return ingredients.get(i);
+         }
+      }
+      return null;
+   }
+
+   public double[] calculate(String recipe) {
+      double quantity = 0;
+      double x = 0;
+      double produceTotal = 0;
+      double total = 0;
+      double totalDiscount = 0;
+      double salesTaxAmount= 0;
+      double salesTax = 0.086;
+      double organicDiscount = 0.05;
+      RecipeItem current;
+      String name;
+      double[] ret = new double[3];
+      try {
+            BufferedReader in = new BufferedReader(new FileReader(recipe));
+            try {
+               if(in.ready()) {
+                  while((name = in.readLine()) != null) {
+                     quantity = Double.parseDouble(in.readLine());
+                     current = this.findItem(name);
+                     if(current != null) {
+                        x = current.getCost()*quantity;
+                        if(current.isProduce()) {
+                           produceTotal += x;
+                        }
+                        else {
+                           total += x;
+                        }
+                        if(current.isOrganic()) {
+                           totalDiscount += x*organicDiscount;
+                        }
+                     }
+                     else {
+                        System.out.println(name + " not found in ingredients list.");
+                     }
+                  }
+               }
+            }
+            catch(IOException ioe) {
+               System.err.println("Error: An I/O Exception Occurred");
+            }
+      }
+      catch(FileNotFoundException f) {
+         System.err.println("Error: File name passed to main not found");			
+      }
+   salesTaxAmount = nearestSeventhCent(total*salesTax);
+   totalDiscount = nearestCent(totalDiscount);
+   total = total+produceTotal+salesTaxAmount - totalDiscount;
+   ret[0] = nearestCent(total);
+   ret[1] = salesTaxAmount;
+   ret[2] = totalDiscount;
+   return ret;
+   }
+
+}
+				
+				
+		
+	
