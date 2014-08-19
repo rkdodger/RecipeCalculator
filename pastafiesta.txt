@@ -1,0 +1,14 @@
+Garlic
+1
+Corn
+4
+Bacon
+4
+Pasta
+8
+Olive Oil
+0.333
+Salt
+1.25
+Pepper
+.75
